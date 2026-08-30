@@ -1,37 +1,88 @@
 export const PORTFOLIO_DATA = {
   name: "Youssef Saber Awad",
-  title: "Cloud Architect | DevOps Engineer | Cybersecurity Enthusiast",
+  title: "CS Student & Cloud / DevOps Engineer",
   location: "Qalyubia, Egypt",
-  bio: "Computer Science student specializing in AWS Cloud Architecting, DevOps Automation, and Cybersecurity infrastructure.",
-  resumeUrl: "/resume.pdf", // ضع ملف الـ PDF الخاص بسيرتك الذاتية داخل مجلد public باسم resume.pdf
-  socials: {
-    github: "https://github.com/YoussefSaber", // استبدله برابط حسابك الحقيقي
-    linkedin: "https://linkedin.com/in/youssefsaber", // استبدله برابط حسابك الحقيقي
-    email: "mailto:your-email@example.com",
+  bio: "Computer Science student at Modern Academy with a strong focus on Cloud Architecture, DevOps Automation, and Cybersecurity. I build robust cloud infrastructure with AWS and Terraform, secure network environments, and develop scalable applications.",
+  availableForWork: true,
+  stats: {
+    mentees: "20+",
+    internships: "2",
+    roles: "3+",
   },
-  skills: [
-    "AWS (EC2, S3, RDS, Lambda, VPC, IAM, CloudWatch)",
-    "Terraform & Ansible",
-    "CI/CD Pipelines & Git / GitHub",
-    "Linux Administration & Bash",
-    "Network Security & Cisco Packet Tracer",
-    "Java, Python, C++",
-    "Flutter & Dart",
+  resumeUrl: "/resume.pdf",
+  socials: {
+    github: "https://github.com/youssefsaber592-netizen",
+    linkedin: "https://linkedin.com/in/youssefsaber",
+    email: "mailto:youssef@example.com",
+  },
+  originStory: [
+    { title: "Academic Path", desc: "CS Student at Modern Academy" },
+    { title: "Cloud & Security", desc: "Passionate about AWS, DevOps & Networking" },
+    { title: "Volunteering", desc: "Active Organizer & Team Member" },
+  ],
+  techStack: {
+    languages: ["C++", "Java", "Python", "Dart", "Bash"],
+    systems: ["AWS Cloud", "Networking / CCNA", "Linux", "Terraform", "Ansible", "Docker"],
+    tools: ["GitHub", "Cisco Packet Tracer", "Postman", "VS Code", "Godot"],
+  },
+  experiences: [
+    {
+      role: "AWS Cloud Architect & DevOps Trainee",
+      organization: "Digital Egypt Pioneers Initiative (DEPI)",
+      type: "TRAINING | ONLINE",
+      date: "2026",
+      description: "Hands-on training in AWS infrastructure setup, IAM, EC2, S3, RDS, Lambda, VPC, and Infrastructure as Code with Terraform.",
+    },
+    {
+      role: "Network Infrastructure Trainee",
+      organization: "IT Gates Academy",
+      type: "TRAINING",
+      date: "2025 - 2026",
+      description: "Configured PAT/NAT, VLANs, multi-branch networks, ACLs, and routing protocols on Cisco Packet Tracer.",
+    },
+    {
+      role: "Organizing & Information Volunteer",
+      organization: "Cairo International Book Fair (almentor)",
+      type: "VOLUNTEER | CAIRO, EGYPT",
+      date: "2026",
+      description: "Assisted visitors with inquiries, managed entry logistics, and provided operational support.",
+    },
+    {
+      role: "ICT Team Member & Event Organizer",
+      organization: "Enactus Modern Academy / Ex-Fresher",
+      type: "STUDENT ACTIVITY",
+      date: "2024 - 2026",
+      description: "Coordinated technical logistics, team communications, and student welcoming events.",
+    },
   ],
   projects: [
     {
       title: "ElectricalStoreERP",
-      description: "3-tier enterprise ERP system with Java desktop/mobile architecture and Firebase Cloud Firestore integration.",
-      techStack: ["Java", "Firebase", "Cloud Firestore"],
-      github: "https://github.com/YoussefSaber/ElectricalStoreERP",
-      demo: "",
+      category: "Desktop / Cloud",
+      description: "3-tier enterprise ERP desktop and mobile application created with Java and Firebase Cloud Firestore for real-time cloud database storage.",
+      tags: ["Java", "Firebase", "Cloud Firestore", "OOP"],
+      github: "https://github.com/youssefsaber592-netizen/ElectricalStoreERP",
     },
     {
-      title: "AWS Cloud Infrastructure Automation",
-      description: "Automated cloud infrastructure provisioning using Terraform and configuration management with Ansible.",
-      techStack: ["AWS", "Terraform", "Ansible", "DevOps"],
-      github: "https://github.com/YoussefSaber",
-      demo: "",
+      title: "AWS DevOps Infrastructure",
+      category: "Infrastructure",
+      description: "Automated provisioning of AWS Cloud infrastructure using Terraform, Ansible configuration management, and GitHub Actions CI/CD.",
+      tags: ["AWS", "Terraform", "Ansible", "CI/CD"],
+      github: "https://github.com/youssefsaber592-netizen",
+    },
+    {
+      title: "Flutter 6-Screen Task App",
+      category: "Mobile App",
+      description: "Cross-platform mobile application built using Flutter and Dart featuring custom UI components and structured navigation.",
+      tags: ["Flutter", "Dart", "Mobile UI"],
+      github: "https://github.com/youssefsaber592-netizen",
+    },
+    {
+      title: "2D Platformer Game Engine",
+      category: "Game Dev",
+      description: "2D game developed using Godot 4 and GDScript with custom signal handling, asset management, and level progression.",
+      tags: ["Godot 4", "GDScript", "2D Physics"],
+      github: "https://github.com/youssefsaber592-netizen",
     },
   ],
 };
