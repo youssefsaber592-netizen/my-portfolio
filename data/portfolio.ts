@@ -1,88 +1,177 @@
+export interface ProjectItem {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  fullDescription: string;
+  architecture?: string;
+  tags: string[];
+  image: string;
+  githubUrl: string;
+  liveUrl?: string;
+}
+
+export interface ExperienceItem {
+  id: string;
+  role: string;
+  organization: string;
+  type: string;
+  date: string;
+  description: string;
+  certificateImage?: string;
+}
+
 export const PORTFOLIO_DATA = {
-  name: "Youssef Saber Awad",
-  title: "CS Student & Cloud / DevOps Engineer",
-  location: "Qalyubia, Egypt",
-  bio: "Computer Science student at Modern Academy with a strong focus on Cloud Architecture, DevOps Automation, and Cybersecurity. I build robust cloud infrastructure with AWS and Terraform, secure network environments, and develop scalable applications.",
+  name: "Youssef Saber",
+  displayName: "YOUSSEF",
+  title: "Cloud & DevOps Engineer",
+  subtitle: "Computer Engineering Student | AWS | DevOps | Cloud Infrastructure",
+  location: "Egypt",
   availableForWork: true,
+  bio: "Computer Engineering student focused on Cloud Computing, DevOps, AWS infrastructure, networking, and automation. I enjoy building reliable, scalable, and secure systems while continuously improving my engineering skills.",
+  
   stats: {
-    mentees: "20+",
-    internships: "2",
-    roles: "3+",
+    collaborations: "50+",
+    experiences: "3+",
+    certifications: "Multiple",
   },
-  resumeUrl: "/resume.pdf",
+
   socials: {
     github: "https://github.com/youssefsaber592-netizen",
-    linkedin: "https://linkedin.com/in/youssefsaber",
-    email: "mailto:youssef@example.com",
+    linkedin: "YOUR_LINKEDIN_URL", // Update when ready
+    email: "YOUR_EMAIL", // Update when ready
+    resume: "/resume.pdf",
   },
+
+  // Leave empty to hide YouTube section automatically
+  youtubeUrl: "",
+
   originStory: [
-    { title: "Academic Path", desc: "CS Student at Modern Academy" },
-    { title: "Cloud & Security", desc: "Passionate about AWS, DevOps & Networking" },
-    { title: "Volunteering", desc: "Active Organizer & Team Member" },
+    { title: "Academic Path", desc: "Started my journey in Computer Engineering." },
+    { title: "Networking", desc: "Built a foundation in networking and CCNA concepts." },
+    { title: "Cloud & Infrastructure", desc: "Started working deeply with AWS, Linux, Docker, and cloud infrastructure." },
+    { title: "DevOps", desc: "Focused on automation, CI/CD, Infrastructure as Code, and scalable systems." },
   ],
+
+  educationCards: [
+    { title: "EDUCATION", subtitle: "Computer Engineering Student", detail: "Shoubra Engineering" },
+    { title: "KEY FOCUS", subtitle: "Cloud Computing", detail: "DevOps & Infrastructure" },
+    { title: "INTERESTS", subtitle: "AWS & Automation", detail: "Linux | Networking | Docker" },
+  ],
+
   techStack: {
-    languages: ["C++", "Java", "Python", "Dart", "Bash"],
-    systems: ["AWS Cloud", "Networking / CCNA", "Linux", "Terraform", "Ansible", "Docker"],
-    tools: ["GitHub", "Cisco Packet Tracer", "Postman", "VS Code", "Godot"],
+    programming: ["C++", "Python", "Java", "JavaScript", "Dart"],
+    cloud: ["AWS", "Docker", "Linux", "Terraform", "Ansible", "Networking", "CCNA"],
+    devops: ["Git", "GitHub", "CI/CD", "GitHub Actions", "Infrastructure as Code"],
+    development: ["Flutter", "React", "Next.js", "HTML", "CSS", "SQL"],
+    tools: ["VS Code", "Cisco Packet Tracer", "Postman", "Godot"],
   },
+
   experiences: [
     {
-      role: "AWS Cloud Architect & DevOps Trainee",
-      organization: "Digital Egypt Pioneers Initiative (DEPI)",
-      type: "TRAINING | ONLINE",
-      date: "2026",
-      description: "Hands-on training in AWS infrastructure setup, IAM, EC2, S3, RDS, Lambda, VPC, and Infrastructure as Code with Terraform.",
+      id: "nti-2025",
+      role: "Network Infrastructure Training",
+      organization: "National Telecommunication Institute (NTI)",
+      type: "TRAINING / INTERNSHIP",
+      date: "2025",
+      description: "Hands-on training in network infrastructure, routing, switching, VLANs, DHCP, ACLs, NAT/PAT, and multi-branch network design using Cisco technologies.",
+      certificateImage: "", // Optional image path
     },
     {
-      role: "Network Infrastructure Trainee",
-      organization: "IT Gates Academy",
+      id: "itgate-2026",
+      role: "CCNA / Networking Training",
+      organization: "IT Gate",
       type: "TRAINING",
-      date: "2025 - 2026",
-      description: "Configured PAT/NAT, VLANs, multi-branch networks, ACLs, and routing protocols on Cisco Packet Tracer.",
+      date: "2025–2026",
+      description: "Training focused on networking fundamentals, Cisco CLI, routing, switching, NAT, VLANs, ACLs, and practical network configuration using Cisco Packet Tracer.",
+      certificateImage: "",
     },
     {
-      role: "Organizing & Information Volunteer",
-      organization: "Cairo International Book Fair (almentor)",
-      type: "VOLUNTEER | CAIRO, EGYPT",
+      id: "depi-2026",
+      role: "Digital Egypt Pioneers Initiative",
+      organization: "DEPI",
+      type: "TRAINING",
       date: "2026",
-      description: "Assisted visitors with inquiries, managed entry logistics, and provided operational support.",
+      description: "Cloud and DevOps focused training covering AWS cloud infrastructure, Linux, networking, automation, deployment workflows, and modern cloud engineering practices.",
+      certificateImage: "",
     },
     {
-      role: "ICT Team Member & Event Organizer",
-      organization: "Enactus Modern Academy / Ex-Fresher",
-      type: "STUDENT ACTIVITY",
-      date: "2024 - 2026",
-      description: "Coordinated technical logistics, team communications, and student welcoming events.",
+      id: "enactus-2026",
+      role: "Enactus Modern Academy",
+      organization: "Enactus Modern Academy",
+      type: "VOLUNTEERING / STUDENT ACTIVITY",
+      date: "2024–2026",
+      description: "Participated in student activities, teamwork, event organization, communication, and community-focused initiatives.",
     },
-  ],
+    {
+      id: "exfresher-2026",
+      role: "Ex-Fresher",
+      organization: "Ex-Fresher",
+      type: "VOLUNTEERING / EVENT ORGANIZATION",
+      date: "2024–2026",
+      description: "Contributed to organizing student activities, coordinating teams, communicating with participants, and supporting events.",
+    },
+  ] as ExperienceItem[],
+
   projects: [
     {
-      title: "ElectricalStoreERP",
-      category: "Desktop / Cloud",
-      description: "3-tier enterprise ERP desktop and mobile application created with Java and Firebase Cloud Firestore for real-time cloud database storage.",
-      tags: ["Java", "Firebase", "Cloud Firestore", "OOP"],
-      github: "https://github.com/youssefsaber592-netizen/ElectricalStoreERP",
+      id: "cs-platform",
+      title: "CS Platform",
+      category: "Education Platform",
+      description: "An educational platform concept for computer science learning, designed to organize technical courses and learning resources.",
+      fullDescription: "Detailed digital solutions platform designed for computer science education. Includes responsive UI layouts, course catalog displays, dynamic track selectors, and interactive registration forms.",
+      architecture: "Frontend architecture constructed with responsive HTML/CSS layouts and dynamic JavaScript interactions.",
+      tags: ["C++", "HTML", "CSS", "JavaScript"],
+      image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80",
+      githubUrl: "https://github.com/youssefsaber592-netizen/cs-platform",
     },
     {
-      title: "AWS DevOps Infrastructure",
-      category: "Infrastructure",
-      description: "Automated provisioning of AWS Cloud infrastructure using Terraform, Ansible configuration management, and GitHub Actions CI/CD.",
-      tags: ["AWS", "Terraform", "Ansible", "CI/CD"],
-      github: "https://github.com/youssefsaber592-netizen",
+      id: "egyptian-league",
+      title: "Egyptian League",
+      category: "Console / Programming",
+      description: "A programming project implementing an Egyptian football league management system using C++.",
+      fullDescription: "Simulates Premier League workflows applying foundational Data Structures (Linked Lists, Stacks, Queues, Vectors) and Object-Oriented Programming (OOP) in C++.",
+      architecture: "Console-driven architecture utilizing algorithms for ranking teams, match scheduling, and data retrieval.",
+      tags: ["C++", "Data Structures", "OOP"],
+      image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
+      githubUrl: "https://github.com/youssefsaber592-netizen/Egyptian-League-using-C-",
     },
     {
-      title: "Flutter 6-Screen Task App",
-      category: "Mobile App",
-      description: "Cross-platform mobile application built using Flutter and Dart featuring custom UI components and structured navigation.",
-      tags: ["Flutter", "Dart", "Mobile UI"],
-      github: "https://github.com/youssefsaber592-netizen",
+      id: "discrete-math",
+      title: "Discrete Mathematics Project",
+      category: "Academic / Software",
+      description: "An academic project implementing concepts and problem solving related to discrete mathematics.",
+      fullDescription: "Implements theoretical discrete mathematics models into algorithmic code including set operations, graph theory traversals, propositional logic, and combinatorics.",
+      architecture: "Modular C++ codebase engineered with algorithmic logic solvers and interactive console inputs.",
+      tags: ["C++", "Algorithms", "Mathematics"],
+      image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80",
+      githubUrl: "https://github.com/youssefsaber592-netizen/Discrete-Mathematics-project",
     },
     {
-      title: "2D Platformer Game Engine",
-      category: "Game Dev",
-      description: "2D game developed using Godot 4 and GDScript with custom signal handling, asset management, and level progression.",
-      tags: ["Godot 4", "GDScript", "2D Physics"],
-      github: "https://github.com/youssefsaber592-netizen",
+      id: "aws-cloud-infra",
+      title: "AWS Cloud Infrastructure",
+      category: "Cloud / DevOps",
+      description: "Cloud infrastructure architecture and automation experiments using AWS services, Linux, containers, Infrastructure as Code, and CI/CD concepts.",
+      fullDescription: "Practical deployments testing Infrastructure as Code with Terraform, Ansible automated provisioning, Docker container management, and continuous integration workflows.",
+      architecture: "AWS VPC architecture integrating EC2, S3, IAM policies, security groups, and automated GitHub Actions pipelines.",
+      tags: ["AWS", "Terraform", "Docker", "Linux", "GitHub Actions"],
+      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
+      githubUrl: "https://github.com/youssefsaber592-netizen",
     },
-  ],
+    {
+      id: "flutter-apps",
+      title: "Flutter Applications",
+      category: "Mobile Development",
+      description: "Cross-platform mobile application experiments built using Flutter and Dart.",
+      fullDescription: "Mobile user interface implementations featuring responsive screen navigation, state management, custom widget trees, and backend integrations.",
+      architecture: "Dart client architecture following clean UI patterns and modular widget trees.",
+      tags: ["Flutter", "Dart", "Mobile"],
+      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80",
+      githubUrl: "https://github.com/youssefsaber592-netizen",
+    },
+  ] as ProjectItem[],
+
+  chatbot: {
+    enabled: true,
+  },
 };
