@@ -9,21 +9,19 @@ import { InteractiveFloating } from "../components/InteractiveFloating";
 import { CustomCursor, CounterNumber, playClickSound } from "../components/Effects";
 import { 
   FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaPaperPlane,
-  FaAws, FaLinux, FaGitAlt, FaPython, FaJava, FaNetworkWired, FaShieldAlt, FaTerminal, FaDatabase, FaGamepad, FaMobileAlt
+  FaAws, FaLinux, FaGitAlt, FaPython, FaJava, FaTerminal, FaShieldAlt
 } from "react-icons/fa";
-import { SiTerraform, SiCplusplus, SiCisco, SiFirebase, SiFlutter, SiGodotengine } from "react-icons/si";
+import { SiCisco, SiFirebase, SiFlutter, SiGodotengine, SiCplusplus } from "react-icons/si";
 
 export default function Home() {
   const { xp, addXp, discoveredCount, discoverMilestone, levelName } = useGamification();
   const [activeSection, setActiveSection] = useState("home");
   const [overlayText, setOverlayText] = useState<string | null>(null);
   const previousSectionRef = useRef<string>("home");
-  
-  // حالة نموذج إرسال الرسالة
+
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [formSent, setFormSent] = useState(false);
 
-  // دالة لعرض شاشة الانتقال
   const triggerOverlay = (sectionName: string) => {
     setOverlayText(sectionName.toUpperCase());
     setTimeout(() => {
@@ -43,7 +41,6 @@ export default function Home() {
     }, 200);
   };
 
-  // متابعة الـ Scroll وتفعيل أنيميشن انتقال السكاشن تلقائياً
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["home", "about", "experience", "skills", "projects", "contact"];
@@ -84,7 +81,6 @@ export default function Home() {
     }
   };
 
-  // قائمة جميع مشاريعك من GitHub
   const allProjects = [
     {
       id: "proj-1",
@@ -121,28 +117,9 @@ export default function Home() {
       tags: ["Cisco", "Packet Tracer", "CCNA", "PAT/NAT", "Networking"],
       githubUrl: "https://github.com/youssefsaber592-netizen",
       image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      id: "proj-5",
-      title: "SOC & Security Investigation Labs",
-      category: "Cybersecurity & Logs",
-      description: "TryHackMe security analyst room write-ups and scripts covering DNS tunneling detection, OSI/TCP-IP models, VyOS firewall configurations, and IDS alert log analysis.",
-      tags: ["Cybersecurity", "SOC Analyst", "IDS Logs", "VyOS", "TryHackMe"],
-      githubUrl: "https://github.com/youssefsaber592-netizen",
-      image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      id: "proj-6",
-      title: "AWS Cloud Infrastructure Labs",
-      category: "DevOps & Cloud Architecture",
-      description: "Practiced deploying secure VPCs, AWS EC2, S3, IAM policies, RDS instances, and automation pipelines under the DEPI initiative.",
-      tags: ["AWS", "VPC", "EC2", "S3", "DevOps"],
-      githubUrl: "https://github.com/youssefsaber592-netizen",
-      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
     }
   ];
 
-  // المهارات والشريط المتحرك
   const skillsList = [
     { name: "AWS Cloud", icon: <FaAws className="text-amber-400" /> },
     { name: "Linux Admin", icon: <FaLinux className="text-yellow-300" /> },
@@ -152,21 +129,18 @@ export default function Home() {
     { name: "Git / GitHub", icon: <FaGitAlt className="text-orange-500" /> },
     { name: "Python", icon: <FaPython className="text-blue-400" /> },
     { name: "Java", icon: <FaJava className="text-red-400" /> },
-    { name: "C++", icon: <SiCplusplus className="text-blue-500" /> },
     { name: "Firebase Firestore", icon: <SiFirebase className="text-amber-500" /> },
-    { name: "Bash & Linux CLI", icon: <FaTerminal className="text-slate-300" /> },
-    { name: "Security & SOC", icon: <FaShieldAlt className="text-emerald-400" /> },
   ];
 
   return (
     <div className="min-h-screen bg-[#05070B] text-slate-200 font-sans selection:bg-cyan-500 selection:text-slate-950 relative overflow-x-hidden cursor-none">
       
-      {/* خلفية المربعات المخططة (Grid Pattern Background) */}
+      {/* خلفية الشبكة */}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-20 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
       <CustomCursor />
 
-      {/* شاشة انتقال الأقسام بملء الصفحة */}
+      {/* شاشة انتقال الأقسام مع خط Pacifico */}
       <AnimatePresence>
         {overlayText && (
           <motion.div
@@ -179,9 +153,10 @@ export default function Home() {
               initial={{ scale: 0.8, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 1.1, opacity: 0 }}
-              className="text-5xl md:text-7xl font-black font-mono text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 tracking-wider uppercase"
+              style={{ fontFamily: 'var(--font-pacifico), cursive' }}
+              className="text-5xl md:text-7xl font-normal text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 tracking-wider capitalize"
             >
-              {overlayText}
+              {overlayText.toLowerCase()}
             </motion.h1>
           </motion.div>
         )}
@@ -206,13 +181,13 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="min-h-[70vh] flex flex-col md:flex-row items-center justify-between gap-12 pt-6"
         >
-          {/* الصورة الشخصية */}
+          {/* الصورة الشخصية بسريعة الحركة (duration: 2) ودون عبارة Available for work */}
           <motion.div
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            animate={{ y: [0, -18, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="relative group shrink-0"
           >
-            <div className="w-60 h-60 md:w-72 md:h-72 rounded-full p-1 bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-500 shadow-[0_0_50px_rgba(6,182,212,0.35)] overflow-hidden">
+            <div className="w-64 h-64 md:w-80 md:h-80 rounded-full p-1 bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-500 shadow-[0_0_50px_rgba(6,182,212,0.35)] overflow-hidden">
               <img
                 src={PORTFOLIO_DATA.image}
                 alt={PORTFOLIO_DATA.name}
@@ -222,62 +197,99 @@ export default function Home() {
                 }}
               />
             </div>
-            {PORTFOLIO_DATA.availableForWork && (
-              <span className="absolute bottom-2 right-4 bg-emerald-500 text-slate-950 text-xs font-bold px-3 py-1 rounded-full border-2 border-[#05070B]">
-                Available for work
-              </span>
-            )}
           </motion.div>
 
           <div className="flex-1 space-y-6 text-center md:text-left">
             <div>
-              <h1 className="text-4xl md:text-6xl font-black text-white">{PORTFOLIO_DATA.name}</h1>
-              <p className="text-lg md:text-xl font-bold text-cyan-400 mt-1">{PORTFOLIO_DATA.title}</p>
-            </div>
-
-            <p className="text-slate-400 text-xs md:text-sm leading-relaxed max-w-xl">{PORTFOLIO_DATA.bio}</p>
-
-            <div className="flex justify-center md:justify-start gap-8 py-3 border-y border-slate-800/80">
-              <div>
-                <p className="text-3xl font-black text-white">
-                  <CounterNumber targetNumber={PORTFOLIO_DATA.stats.collaborations} />+
-                </p>
-                <p className="text-xs text-slate-400">Projects & Labs</p>
-              </div>
-              <div>
-                <p className="text-3xl font-black text-white">
-                  <CounterNumber targetNumber={PORTFOLIO_DATA.stats.experiences} />+
-                </p>
-                <p className="text-xs text-slate-400">Trainings & Experience</p>
-              </div>
-              <div>
-                <p className="text-3xl font-black text-white">
-                  <CounterNumber targetNumber={PORTFOLIO_DATA.stats.certifications} />+
-                </p>
-                <p className="text-xs text-slate-400">Certifications</p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
-              <button
-                onClick={() => scrollTo("projects", "PROJECTS")}
-                className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-6 py-3 rounded-xl font-bold text-xs transition shadow-lg shadow-cyan-500/20"
+              {/* الاسم بخط Pacifico */}
+              <h1 
+                style={{ fontFamily: 'var(--font-pacifico), cursive' }}
+                className="text-5xl md:text-7xl font-normal text-white tracking-wide"
               >
-                Explore Work ↓
-              </button>
-              <a
-                href={PORTFOLIO_DATA.socials.resume}
-                download
-                onClick={playClickSound}
-                className="bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-white px-6 py-3 rounded-xl font-medium text-xs transition flex items-center gap-2"
-              >
-                <FaDownload /> Request Full CV ↓
-              </a>
+                {PORTFOLIO_DATA.name}
+              </h1>
+              <p className="text-lg md:text-xl font-bold text-cyan-400 mt-2">{PORTFOLIO_DATA.title}</p>
             </div>
+
+            {/* الإحصائيات مع نص Available for work الجانبي بخط Pacifico */}
+            <div className="flex items-center justify-center md:justify-start gap-8 py-3 border-y border-slate-800/80 relative">
+              <div className="flex gap-8">
+                <div>
+                  <p className="text-3xl font-black text-white">
+                    <CounterNumber targetNumber={PORTFOLIO_DATA.stats.collaborations} />+
+                  </p>
+                  <p className="text-xs text-slate-400 uppercase tracking-wider">PROJECTS</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-black text-white">
+                    <CounterNumber targetNumber={PORTFOLIO_DATA.stats.experiences} />+
+                  </p>
+                  <p className="text-xs text-slate-400 uppercase tracking-wider">TRAININGS</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-black text-white">
+                    <CounterNumber targetNumber={PORTFOLIO_DATA.stats.certifications} />+
+                  </p>
+                  <p className="text-xs text-slate-400 uppercase tracking-wider">ROLES</p>
+                </div>
+              </div>
+
+              {/* Available for work بجانب الإحصائيات مثل العلامة الحمراء الأولى */}
+              {PORTFOLIO_DATA.availableForWork && (
+                <span 
+                  style={{ fontFamily: 'var(--font-pacifico), cursive' }}
+                  className="text-2xl text-blue-400 ml-4 hidden sm:inline-block rotate-[-4deg]"
+                >
+                  Available for work
+                </span>
+              )}
+            </div>
+
+            {/* الأزرار والتواصل السريع المطابق للعلامة الحمراء الثانية */}
+            <div className="space-y-4 pt-2">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                <button
+                  onClick={() => scrollTo("projects", "PROJECTS")}
+                  className="bg-white text-slate-950 px-6 py-3 rounded-xl font-bold text-xs transition hover:bg-slate-200 flex items-center gap-1 shadow-md"
+                >
+                  Explore Work ↓
+                </button>
+                <a
+                  href={PORTFOLIO_DATA.socials.resume}
+                  download
+                  onClick={playClickSound}
+                  className="bg-slate-900 border border-slate-800 hover:bg-slate-800 text-white px-6 py-3 rounded-xl font-medium text-xs transition flex items-center gap-1"
+                >
+                  Request Full CV ↓
+                </a>
+              </div>
+
+              {/* Quick Connection بنفس تنسيق الصورة */}
+              <div className="flex items-center justify-center md:justify-start gap-3 text-xs text-slate-400 pt-2">
+                <span className="font-medium">Quick Connection:</span>
+                <a
+                  href={PORTFOLIO_DATA.socials.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={playClickSound}
+                  className="bg-slate-900/90 border border-slate-800 hover:border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-semibold transition"
+                >
+                  <FaLinkedin className="text-blue-400" /> LinkedIn
+                </a>
+                <a
+                  href={`mailto:${PORTFOLIO_DATA.socials.email}`}
+                  onClick={playClickSound}
+                  className="bg-slate-900/90 border border-slate-800 hover:border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-xs font-semibold transition"
+                >
+                  <FaEnvelope className="text-slate-300" /> Email
+                </a>
+              </div>
+            </div>
+
           </div>
         </motion.section>
 
-        {/* ABOUT SECTION */}
+        {/* باقي السكاشن */}
         <motion.section
           id="about"
           initial={{ opacity: 0, y: 40 }}
@@ -294,69 +306,7 @@ export default function Home() {
           </p>
         </motion.section>
 
-        {/* EXPERIENCE SECTION */}
-        <motion.section
-          id="experience"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="space-y-8"
-        >
-          <div className="space-y-1">
-            <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Journey</span>
-            <h2 className="text-3xl font-black text-white">Experience & Training</h2>
-          </div>
-
-          <div className="space-y-4">
-            {PORTFOLIO_DATA.experiences.map((exp) => (
-              <div key={exp.id} className="bg-slate-950/60 border border-slate-800/80 p-6 rounded-2xl backdrop-blur-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                  <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">
-                    {exp.type}
-                  </span>
-                  <h3 className="text-lg font-bold text-white mt-1">{exp.role}</h3>
-                  <p className="text-xs text-slate-400">{exp.organization}</p>
-                  <p className="text-xs text-slate-300 mt-2">{exp.description}</p>
-                </div>
-                <span className="text-xs font-mono text-slate-500 shrink-0">{exp.date}</span>
-              </div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* SKILLS MARQUEE SECTION */}
-        <motion.section
-          id="skills"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="space-y-6 overflow-hidden"
-        >
-          <div className="text-center space-y-1">
-            <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Technologies</span>
-            <h2 className="text-3xl font-black text-white">Skills & Tech Stack</h2>
-          </div>
-
-          <div className="relative w-full overflow-hidden py-4 border-y border-slate-800/80 bg-slate-950/50 backdrop-blur-md">
-            <motion.div
-              className="flex gap-8 whitespace-nowrap min-w-full"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ repeat: Infinity, duration: 22, ease: "linear" }}
-            >
-              {[...skillsList, ...skillsList].map((skill, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-3 bg-slate-900/80 border border-slate-800 px-5 py-3 rounded-xl shadow-inner shrink-0"
-                >
-                  <span className="text-xl">{skill.icon}</span>
-                  <span className="text-xs font-bold text-slate-200">{skill.name}</span>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </motion.section>
-
-        {/* ALL GITHUB PROJECTS SECTION */}
+        {/* PROJECTS SECTION */}
         <motion.section
           id="projects"
           initial={{ opacity: 0, y: 40 }}
@@ -366,7 +316,7 @@ export default function Home() {
         >
           <div className="text-center space-y-1">
             <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Portfolio</span>
-            <h2 className="text-3xl font-black text-white">All GitHub Projects & Labs</h2>
+            <h2 className="text-3xl font-black text-white">Featured Projects</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -384,16 +334,9 @@ export default function Home() {
                     </span>
                     <h3 className="text-lg font-bold text-white">{proj.title}</h3>
                     <p className="text-xs text-slate-400 leading-relaxed">{proj.description}</p>
-                    <div className="flex flex-wrap gap-1.5 pt-2">
-                      {proj.tags.map((tag) => (
-                        <span key={tag} className="text-[10px] bg-slate-900 border border-slate-800 text-slate-300 px-2 py-0.5 rounded">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
                   </div>
                 </div>
-                <div className="p-6 pt-0 flex items-center justify-between">
+                <div className="p-6 pt-0">
                   <a
                     href={proj.githubUrl}
                     target="_blank"
@@ -406,72 +349,6 @@ export default function Home() {
                 </div>
               </motion.div>
             ))}
-          </div>
-        </motion.section>
-
-        {/* CONTACT SECTION */}
-        <motion.section
-          id="contact"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-slate-950/80 border border-slate-800/80 rounded-3xl p-8 md:p-12 space-y-8 backdrop-blur-md"
-        >
-          <div className="text-center space-y-2">
-            <h2 className="text-3xl font-black text-white">Leave a Message</h2>
-            <p className="text-xs text-slate-400">Have a project or opportunity? Drop your details below.</p>
-          </div>
-
-          <form onSubmit={handleFormSubmit} className="max-w-xl mx-auto space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="Your Name"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 transition"
-              />
-              <input
-                type="email"
-                placeholder="Your Email"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 transition"
-              />
-            </div>
-            <textarea
-              rows={4}
-              placeholder="Your Message..."
-              required
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 transition"
-            />
-            <button
-              type="submit"
-              className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20"
-            >
-              <FaPaperPlane /> Send Message
-            </button>
-            {formSent && (
-              <p className="text-xs text-emerald-400 text-center font-mono mt-2">
-                ✓ Message sent successfully! (+15 XP)
-              </p>
-            )}
-          </form>
-
-          <div className="flex flex-wrap justify-center gap-4 pt-4 border-t border-slate-800/80">
-            <a href={`mailto:${PORTFOLIO_DATA.socials.email}`} onClick={playClickSound} className="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
-              <FaEnvelope /> {PORTFOLIO_DATA.socials.email}
-            </a>
-            <a href={PORTFOLIO_DATA.socials.github} target="_blank" rel="noreferrer" onClick={playClickSound} className="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
-              <FaGithub /> GitHub
-            </a>
-            <a href={PORTFOLIO_DATA.socials.linkedin} target="_blank" rel="noreferrer" onClick={playClickSound} className="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
-              <FaLinkedin /> LinkedIn
-            </a>
           </div>
         </motion.section>
 
