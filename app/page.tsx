@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { motion, AnimatePresence } from "framer-motion";
 import { PORTFOLIO_DATA } from "../data/portfolio";
 import { useGamification } from "../hooks/useGamification";
@@ -9,7 +10,7 @@ import { InteractiveFloating } from "../components/InteractiveFloating";
 import { CustomCursor, CounterNumber, playClickSound } from "../components/Effects";
 import { 
   FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaPaperPlane,
-  FaAws, FaLinux, FaGitAlt, FaPython, FaJava, FaTerminal, FaShieldAlt, FaDatabase
+  FaAws, FaLinux, FaGitAlt, FaPython, FaJava, FaTerminal, FaShieldAlt
 } from "react-icons/fa";
 import { SiCisco, SiFirebase, SiFlutter, SiGodotengine, SiCplusplus } from "react-icons/si";
 
@@ -69,17 +70,34 @@ export default function Home() {
   }, [discoverMilestone]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    playClickSound();
-    if (formData.name && formData.email && formData.message) {
-      setFormSent(true);
-      addXp(15, "Message Sent!");
-      setTimeout(() => {
-        setFormData({ name: "", email: "", message: "" });
-        setFormSent(false);
-      }, 4000);
-    }
-  };
+  e.preventDefault();
+  playClickSound();
+
+  if (formData.name && formData.email && formData.message) {
+    emailjs
+      .send(
+        "service_sq4hzsk",
+        "template_uoa2pe8",
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        "4daaBMK3QwGrhcxAo"
+      )
+      .then(
+        () => {
+          setFormSent(true);
+          addXp(15, "Message Sent!");
+          setFormData({ name: "", email: "", message: "" });
+          setTimeout(() => setFormSent(false), 4000);
+        },
+        (error) => {
+          console.error("EmailJS Error:", error);
+        }
+      );
+  }
+};
 
   const allProjects = [
     {
@@ -154,10 +172,19 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#05070B] text-slate-200 font-sans selection:bg-cyan-500 selection:text-slate-950 relative overflow-x-hidden cursor-none">
+    <div className="min-h-screen bg-[#060913] text-slate-200 font-sans selection:bg-cyan-500 selection:text-slate-950 relative overflow-x-hidden cursor-none">
       
-      {/* خلفية الكاروهات المظلمة والممتدة كامل الصفحة */}
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-25 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_20%,#000_70%,transparent_100%)]" />
+      {/* خلفية الكاروهات الواضحة بتباين متناسق */}
+      <div 
+        className="fixed inset-0 pointer-events-none z-0 opacity-40"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px',
+        }}
+      />
 
       <CustomCursor />
 
@@ -222,7 +249,6 @@ export default function Home() {
 
           <div className="flex-1 space-y-6 text-center md:text-left">
             <div>
-              {/* اسم يوسف صابر مع تعديل ارتفاع السطر للحد من التداخل */}
               <h1 
                 style={{ fontFamily: 'var(--font-pacifico), cursive' }}
                 className="text-5xl md:text-7xl font-normal text-white tracking-wide leading-[1.3] mb-3"
@@ -314,7 +340,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="space-y-6 bg-slate-950/60 border border-slate-800/80 rounded-3xl p-8 backdrop-blur-md"
+          className="space-y-6 bg-slate-950/70 border border-slate-800/80 rounded-3xl p-8 backdrop-blur-md"
         >
           <div className="space-y-1">
             <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">About Me</span>
@@ -340,7 +366,7 @@ export default function Home() {
 
           <div className="space-y-4">
             {PORTFOLIO_DATA.experiences.map((exp) => (
-              <div key={exp.id} className="bg-slate-950/60 border border-slate-800/80 p-6 rounded-2xl backdrop-blur-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div key={exp.id} className="bg-slate-950/70 border border-slate-800/80 p-6 rounded-2xl backdrop-blur-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                   <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">
                     {exp.type}
@@ -355,7 +381,7 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* SKILLS MARQUEE SECTION */}
+        {/* SKILLS SECTION */}
         <motion.section
           id="skills"
           initial={{ opacity: 0, y: 40 }}
@@ -368,7 +394,7 @@ export default function Home() {
             <h2 className="text-3xl font-black text-white">Skills & Tech Stack</h2>
           </div>
 
-          <div className="relative w-full overflow-hidden py-4 border-y border-slate-800/80 bg-slate-950/50 backdrop-blur-md">
+          <div className="relative w-full overflow-hidden py-4 border-y border-slate-800/80 bg-slate-950/70 backdrop-blur-md">
             <motion.div
               className="flex gap-8 whitespace-nowrap min-w-full"
               animate={{ x: ["0%", "-50%"] }}
@@ -405,7 +431,7 @@ export default function Home() {
               <motion.div
                 key={proj.id}
                 whileHover={{ y: -6 }}
-                className="bg-slate-950/60 border border-slate-800/80 rounded-2xl overflow-hidden hover:border-cyan-500/50 transition flex flex-col justify-between backdrop-blur-md"
+                className="bg-slate-950/70 border border-slate-800/80 rounded-2xl overflow-hidden hover:border-cyan-500/50 transition flex flex-col justify-between backdrop-blur-md"
               >
                 <div>
                   <img src={proj.image} alt={proj.title} className="w-full h-44 object-cover" />
