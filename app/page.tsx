@@ -98,7 +98,6 @@ export default function Home() {
       );
   }
 };
-
   const allProjects = [
     {
       id: "proj-1",
