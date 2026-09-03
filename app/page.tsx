@@ -9,7 +9,7 @@ import { InteractiveFloating } from "../components/InteractiveFloating";
 import { CustomCursor, CounterNumber, playClickSound } from "../components/Effects";
 import { 
   FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaPaperPlane,
-  FaAws, FaLinux, FaGitAlt, FaPython, FaJava, FaTerminal, FaShieldAlt
+  FaAws, FaLinux, FaGitAlt, FaPython, FaJava, FaTerminal, FaShieldAlt, FaDatabase
 } from "react-icons/fa";
 import { SiCisco, SiFirebase, SiFlutter, SiGodotengine, SiCplusplus } from "react-icons/si";
 
@@ -117,6 +117,24 @@ export default function Home() {
       tags: ["Cisco", "Packet Tracer", "CCNA", "PAT/NAT", "Networking"],
       githubUrl: "https://github.com/youssefsaber592-netizen",
       image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: "proj-5",
+      title: "SOC & Security Investigation Labs",
+      category: "Cybersecurity & Logs",
+      description: "TryHackMe security analyst room write-ups and scripts covering DNS tunneling detection, OSI/TCP-IP models, VyOS firewall configurations, and IDS alert log analysis.",
+      tags: ["Cybersecurity", "SOC Analyst", "IDS Logs", "VyOS", "TryHackMe"],
+      githubUrl: "https://github.com/youssefsaber592-netizen",
+      image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: "proj-6",
+      title: "AWS Cloud Infrastructure Labs",
+      category: "DevOps & Cloud Architecture",
+      description: "Practiced deploying secure VPCs, AWS EC2, S3, IAM policies, RDS instances, and automation pipelines under the DEPI initiative.",
+      tags: ["AWS", "VPC", "EC2", "S3", "DevOps"],
+      githubUrl: "https://github.com/youssefsaber592-netizen",
+      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
     }
   ];
 
@@ -129,14 +147,17 @@ export default function Home() {
     { name: "Git / GitHub", icon: <FaGitAlt className="text-orange-500" /> },
     { name: "Python", icon: <FaPython className="text-blue-400" /> },
     { name: "Java", icon: <FaJava className="text-red-400" /> },
+    { name: "C++", icon: <SiCplusplus className="text-blue-500" /> },
     { name: "Firebase Firestore", icon: <SiFirebase className="text-amber-500" /> },
+    { name: "Bash & Linux CLI", icon: <FaTerminal className="text-slate-300" /> },
+    { name: "Security & SOC", icon: <FaShieldAlt className="text-emerald-400" /> },
   ];
 
   return (
     <div className="min-h-screen bg-[#05070B] text-slate-200 font-sans selection:bg-cyan-500 selection:text-slate-950 relative overflow-x-hidden cursor-none">
       
-      {/* خلفية الشبكة */}
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-20 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+      {/* خلفية الكاروهات المظلمة والممتدة كامل الصفحة */}
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-25 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_20%,#000_70%,transparent_100%)]" />
 
       <CustomCursor />
 
@@ -181,7 +202,7 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="min-h-[70vh] flex flex-col md:flex-row items-center justify-between gap-12 pt-6"
         >
-          {/* الصورة الشخصية بسريعة الحركة (duration: 2) ودون عبارة Available for work */}
+          {/* الصورة الشخصية */}
           <motion.div
             animate={{ y: [0, -18, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -201,17 +222,17 @@ export default function Home() {
 
           <div className="flex-1 space-y-6 text-center md:text-left">
             <div>
-              {/* الاسم بخط Pacifico */}
+              {/* اسم يوسف صابر مع تعديل ارتفاع السطر للحد من التداخل */}
               <h1 
                 style={{ fontFamily: 'var(--font-pacifico), cursive' }}
-                className="text-5xl md:text-7xl font-normal text-white tracking-wide"
+                className="text-5xl md:text-7xl font-normal text-white tracking-wide leading-[1.3] mb-3"
               >
                 {PORTFOLIO_DATA.name}
               </h1>
-              <p className="text-lg md:text-xl font-bold text-cyan-400 mt-2">{PORTFOLIO_DATA.title}</p>
+              <p className="text-lg md:text-xl font-bold text-cyan-400">{PORTFOLIO_DATA.title}</p>
             </div>
 
-            {/* الإحصائيات مع نص Available for work الجانبي بخط Pacifico */}
+            {/* الإحصائيات مع Available for work */}
             <div className="flex items-center justify-center md:justify-start gap-8 py-3 border-y border-slate-800/80 relative">
               <div className="flex gap-8">
                 <div>
@@ -234,7 +255,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Available for work بجانب الإحصائيات مثل العلامة الحمراء الأولى */}
               {PORTFOLIO_DATA.availableForWork && (
                 <span 
                   style={{ fontFamily: 'var(--font-pacifico), cursive' }}
@@ -245,7 +265,7 @@ export default function Home() {
               )}
             </div>
 
-            {/* الأزرار والتواصل السريع المطابق للعلامة الحمراء الثانية */}
+            {/* الأزرار ووصلات التواصل */}
             <div className="space-y-4 pt-2">
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
                 <button
@@ -264,7 +284,6 @@ export default function Home() {
                 </a>
               </div>
 
-              {/* Quick Connection بنفس تنسيق الصورة */}
               <div className="flex items-center justify-center md:justify-start gap-3 text-xs text-slate-400 pt-2">
                 <span className="font-medium">Quick Connection:</span>
                 <a
@@ -289,7 +308,7 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* باقي السكاشن */}
+        {/* ABOUT SECTION */}
         <motion.section
           id="about"
           initial={{ opacity: 0, y: 40 }}
@@ -306,6 +325,68 @@ export default function Home() {
           </p>
         </motion.section>
 
+        {/* EXPERIENCE SECTION */}
+        <motion.section
+          id="experience"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="space-y-8"
+        >
+          <div className="space-y-1">
+            <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Journey</span>
+            <h2 className="text-3xl font-black text-white">Experience & Training</h2>
+          </div>
+
+          <div className="space-y-4">
+            {PORTFOLIO_DATA.experiences.map((exp) => (
+              <div key={exp.id} className="bg-slate-950/60 border border-slate-800/80 p-6 rounded-2xl backdrop-blur-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                  <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">
+                    {exp.type}
+                  </span>
+                  <h3 className="text-lg font-bold text-white mt-1">{exp.role}</h3>
+                  <p className="text-xs text-slate-400">{exp.organization}</p>
+                  <p className="text-xs text-slate-300 mt-2">{exp.description}</p>
+                </div>
+                <span className="text-xs font-mono text-slate-500 shrink-0">{exp.date}</span>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* SKILLS MARQUEE SECTION */}
+        <motion.section
+          id="skills"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="space-y-6 overflow-hidden"
+        >
+          <div className="text-center space-y-1">
+            <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Technologies</span>
+            <h2 className="text-3xl font-black text-white">Skills & Tech Stack</h2>
+          </div>
+
+          <div className="relative w-full overflow-hidden py-4 border-y border-slate-800/80 bg-slate-950/50 backdrop-blur-md">
+            <motion.div
+              className="flex gap-8 whitespace-nowrap min-w-full"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, duration: 22, ease: "linear" }}
+            >
+              {[...skillsList, ...skillsList].map((skill, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-3 bg-slate-900/80 border border-slate-800 px-5 py-3 rounded-xl shadow-inner shrink-0"
+                >
+                  <span className="text-xl">{skill.icon}</span>
+                  <span className="text-xs font-bold text-slate-200">{skill.name}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </motion.section>
+
         {/* PROJECTS SECTION */}
         <motion.section
           id="projects"
@@ -316,7 +397,7 @@ export default function Home() {
         >
           <div className="text-center space-y-1">
             <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Portfolio</span>
-            <h2 className="text-3xl font-black text-white">Featured Projects</h2>
+            <h2 className="text-3xl font-black text-white">All GitHub Projects & Labs</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -334,6 +415,13 @@ export default function Home() {
                     </span>
                     <h3 className="text-lg font-bold text-white">{proj.title}</h3>
                     <p className="text-xs text-slate-400 leading-relaxed">{proj.description}</p>
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {proj.tags.map((tag) => (
+                        <span key={tag} className="text-[10px] bg-slate-900 border border-slate-800 text-slate-300 px-2 py-0.5 rounded">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
                 <div className="p-6 pt-0">
@@ -349,6 +437,72 @@ export default function Home() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </motion.section>
+
+        {/* CONTACT SECTION */}
+        <motion.section
+          id="contact"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-slate-950/80 border border-slate-800/80 rounded-3xl p-8 md:p-12 space-y-8 backdrop-blur-md"
+        >
+          <div className="text-center space-y-2">
+            <h2 className="text-3xl font-black text-white">Leave a Message</h2>
+            <p className="text-xs text-slate-400">Have a project or opportunity? Drop your details below.</p>
+          </div>
+
+          <form onSubmit={handleFormSubmit} className="max-w-xl mx-auto space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                placeholder="Your Name"
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 transition"
+              />
+              <input
+                type="email"
+                placeholder="Your Email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 transition"
+              />
+            </div>
+            <textarea
+              rows={4}
+              placeholder="Your Message..."
+              required
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 transition"
+            />
+            <button
+              type="submit"
+              className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20"
+            >
+              <FaPaperPlane /> Send Message
+            </button>
+            {formSent && (
+              <p className="text-xs text-emerald-400 text-center font-mono mt-2">
+                ✓ Message sent successfully! (+15 XP)
+              </p>
+            )}
+          </form>
+
+          <div className="flex flex-wrap justify-center gap-4 pt-4 border-t border-slate-800/80">
+            <a href={`mailto:${PORTFOLIO_DATA.socials.email}`} onClick={playClickSound} className="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
+              <FaEnvelope /> {PORTFOLIO_DATA.socials.email}
+            </a>
+            <a href={PORTFOLIO_DATA.socials.github} target="_blank" rel="noreferrer" onClick={playClickSound} className="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
+              <FaGithub /> GitHub
+            </a>
+            <a href={PORTFOLIO_DATA.socials.linkedin} target="_blank" rel="noreferrer" onClick={playClickSound} className="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
+              <FaLinkedin /> LinkedIn
+            </a>
           </div>
         </motion.section>
 
