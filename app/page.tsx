@@ -77,7 +77,7 @@ export default function Home() {
     emailjs
       .send(
         "service_sq4hzsk",
-        "template_uoa2pe8",
+        "template_jdm4hp4", // الـ Template ID المحدث
         {
           from_name: formData.name,
           from_email: formData.email,
@@ -86,7 +86,8 @@ export default function Home() {
         "4daaBMK3QwGrhcxAo"
       )
       .then(
-        () => {
+        (response) => {
+          console.log("SUCCESS!", response.status, response.text);
           setFormSent(true);
           addXp(15, "Message Sent!");
           setFormData({ name: "", email: "", message: "" });
@@ -94,10 +95,12 @@ export default function Home() {
         },
         (error) => {
           console.error("EmailJS Error:", error);
+          alert(`فشل الإرسال: ${error.text || JSON.stringify(error)}`);
         }
       );
   }
 };
+
   const allProjects = [
     {
       id: "proj-1",
