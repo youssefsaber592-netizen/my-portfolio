@@ -7,12 +7,20 @@ import { useGamification } from "../hooks/useGamification";
 import { Navbar } from "../components/Navbar";
 import { InteractiveFloating } from "../components/InteractiveFloating";
 import { CustomCursor, CounterNumber, playClickSound } from "../components/Effects";
-import { FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaPhone, FaShieldAlt, FaServer, FaNetworkWired, FaCode } from "react-icons/fa";
+import { 
+  FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaPaperPlane,
+  FaAws, FaLinux, FaGitAlt, FaPython, FaJava, FaDocker, FaNetworkWired, FaShieldAlt, FaTerminal, FaDatabase
+} from "react-icons/fa";
+import { SiTerraform, SiCplusplus, SiCisco, SiFirebase } from "react-icons/si";
 
 export default function Home() {
-  const { xp, addXp, discoveredCount, discoverMilestone, levelName, toasts } = useGamification();
+  const { xp, addXp, discoveredCount, discoverMilestone, levelName } = useGamification();
   const [activeSection, setActiveSection] = useState("home");
   const [overlayText, setOverlayText] = useState<string | null>(null);
+  
+  // حالة نموذج إرسال الرسالة
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formSent, setFormSent] = useState(false);
 
   const scrollTo = (id: string, name: string) => {
     playClickSound();
@@ -53,11 +61,40 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [discoverMilestone]);
 
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    playClickSound();
+    if (formData.name && formData.email && formData.message) {
+      setFormSent(true);
+      addXp(15, "Message Sent!");
+      setTimeout(() => {
+        setFormData({ name: "", email: "", message: "" });
+        setFormSent(false);
+      }, 4000);
+    }
+  };
+
+  // قائمة المهارات مع الأيقونات الخاصة بها للشريط المتحرك
+  const skillsList = [
+    { name: "AWS Cloud", icon: <FaAws className="text-amber-400" /> },
+    { name: "Linux Admin", icon: <FaLinux className="text-yellow-300" /> },
+    { name: "IAM & Security", icon: <FaShieldAlt className="text-emerald-400" /> },
+    { name: "CCNA & Networking", icon: <SiCisco className="text-cyan-400" /> },
+    { name: "Git / GitHub", icon: <FaGitAlt className="text-orange-500" /> },
+    { name: "Python", icon: <FaPython className="text-blue-400" /> },
+    { name: "Java", icon: <FaJava className="text-red-400" /> },
+    { name: "C++", icon: <SiCplusplus className="text-blue-500" /> },
+    { name: "Bash Scripting", icon: <FaTerminal className="text-slate-300" /> },
+    { name: "Firebase Firestore", icon: <SiFirebase className="text-amber-500" /> },
+    { name: "SQL & Databases", icon: <FaDatabase className="text-indigo-400" /> },
+    { name: "Infrastructure Security", icon: <FaNetworkWired className="text-teal-400" /> },
+  ];
+
   return (
     <div className="min-h-screen bg-[#05070B] text-slate-200 font-sans selection:bg-cyan-500 selection:text-slate-950 relative overflow-x-hidden cursor-none">
       <CustomCursor />
 
-      {/* شاشة انتقال الأقسام بملء الصفحة (Full Screen Section Transition) */}
+      {/* شاشة انتقال الأقسام بملء الصفحة */}
       <AnimatePresence>
         {overlayText && (
           <motion.div
@@ -95,19 +132,23 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="min-h-[75vh] flex flex-col md:flex-row items-center justify-between gap-12 pt-6"
+          className="min-h-[70vh] flex flex-col md:flex-row items-center justify-between gap-12 pt-6"
         >
-          {/* الصورة مع أنيميشن الصعود وهبوط مستمر (Floating Animation) */}
+          {/* الصورة الشخصية مع أنيميشن الطفو والارتفاع */}
           <motion.div
             animate={{ y: [0, -15, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="relative group"
+            className="relative group shrink-0"
           >
-            <div className="w-60 h-60 md:w-72 md:h-72 rounded-full p-1 bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-500 shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden">
+            <div className="w-60 h-60 md:w-72 md:h-72 rounded-full p-1 bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-500 shadow-[0_0_50px_rgba(6,182,212,0.35)] overflow-hidden">
               <img
                 src={PORTFOLIO_DATA.image}
                 alt={PORTFOLIO_DATA.name}
                 className="w-full h-full object-cover rounded-full"
+                onError={(e) => {
+                  // حاطين صورة fallback في حال لم يجد ملف profile.jpg
+                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80";
+                }}
               />
             </div>
             {PORTFOLIO_DATA.availableForWork && (
@@ -118,14 +159,13 @@ export default function Home() {
           </motion.div>
 
           <div className="flex-1 space-y-6 text-center md:text-left">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+            <div>
               <h1 className="text-4xl md:text-6xl font-black text-white">{PORTFOLIO_DATA.name}</h1>
               <p className="text-lg md:text-xl font-bold text-cyan-400 mt-1">{PORTFOLIO_DATA.title}</p>
-            </motion.div>
+            </div>
 
             <p className="text-slate-400 text-xs md:text-sm leading-relaxed max-w-xl">{PORTFOLIO_DATA.bio}</p>
 
-            {/* الأرقام التي تتصاعد تدريجياً تلقائياً عند فتح الموقع */}
             <div className="flex justify-center md:justify-start gap-8 py-3 border-y border-slate-800/80">
               <div>
                 <p className="text-3xl font-black text-white">
@@ -166,87 +206,96 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* TECHNICAL STACK SECTION */}
+        {/* ABOUT SECTION */}
+        <motion.section
+          id="about"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="space-y-6 bg-slate-950/40 border border-slate-800/80 rounded-3xl p-8"
+        >
+          <div className="space-y-1">
+            <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">About Me</span>
+            <h2 className="text-3xl font-black text-white">Background & Specialization</h2>
+          </div>
+          <p className="text-slate-300 text-sm leading-relaxed">
+            I am a Computer Science student with a concentrated focus on Cloud Architecture, Infrastructure Hardening, and DevOps Automation. Selected for the Digital Egypt Pioneers Initiative (DEPI) AWS Cloud Architecting track, I combine robust software engineering skills with networking fundamentals (CCNA-trained) to construct reliable 3-tier applications and secure cloud environments.
+          </p>
+        </motion.section>
+
+        {/* EXPERIENCE SECTION */}
+        <motion.section
+          id="experience"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="space-y-8"
+        >
+          <div className="space-y-1">
+            <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Journey</span>
+            <h2 className="text-3xl font-black text-white">Experience & Training</h2>
+          </div>
+
+          <div className="space-y-4">
+            {PORTFOLIO_DATA.experiences.map((exp) => (
+              <div key={exp.id} className="bg-slate-950/60 border border-slate-800/80 p-6 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                  <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">
+                    {exp.type}
+                  </span>
+                  <h3 className="text-lg font-bold text-white mt-1">{exp.role}</h3>
+                  <p className="text-xs text-slate-400">{exp.organization}</p>
+                  <p className="text-xs text-slate-300 mt-2">{exp.description}</p>
+                </div>
+                <span className="text-xs font-mono text-slate-500 shrink-0">{exp.date}</span>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* SKILLS MARQUEE SECTION (شريط المهارات المتحرك مع الأيقونات) */}
         <motion.section
           id="skills"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="space-y-8"
+          className="space-y-6 overflow-hidden"
         >
           <div className="text-center space-y-1">
-            <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Skills</span>
-            <h2 className="text-3xl font-black text-white">Technical Expertise</h2>
+            <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Technologies</span>
+            <h2 className="text-3xl font-black text-white">Skills & Tech Stack</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-slate-950/60 border border-slate-800 p-6 rounded-2xl space-y-3">
-              <h3 className="text-sm font-bold text-cyan-400 flex items-center gap-2 border-b border-slate-800 pb-2">
-                <FaShieldAlt /> CLOUD & SECURITY
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {PORTFOLIO_DATA.techStack.cloudSecurity.map((item) => (
-                  <span key={item} className="bg-slate-900 text-slate-300 text-xs px-3 py-1 rounded-lg border border-slate-800">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-slate-950/60 border border-slate-800 p-6 rounded-2xl space-y-3">
-              <h3 className="text-sm font-bold text-cyan-400 flex items-center gap-2 border-b border-slate-800 pb-2">
-                <FaServer /> DEVOPS & INFRASTRUCTURE
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {PORTFOLIO_DATA.techStack.devopsInfra.map((item) => (
-                  <span key={item} className="bg-slate-900 text-slate-300 text-xs px-3 py-1 rounded-lg border border-slate-800">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-slate-950/60 border border-slate-800 p-6 rounded-2xl space-y-3">
-              <h3 className="text-sm font-bold text-cyan-400 flex items-center gap-2 border-b border-slate-800 pb-2">
-                <FaNetworkWired /> NETWORKING
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {PORTFOLIO_DATA.techStack.networking.map((item) => (
-                  <span key={item} className="bg-slate-900 text-slate-300 text-xs px-3 py-1 rounded-lg border border-slate-800">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-slate-950/60 border border-slate-800 p-6 rounded-2xl space-y-3">
-              <h3 className="text-sm font-bold text-cyan-400 flex items-center gap-2 border-b border-slate-800 pb-2">
-                <FaCode /> PROGRAMMING & CORE CS
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {PORTFOLIO_DATA.techStack.programming.map((item) => (
-                  <span key={item} className="bg-slate-900 text-slate-300 text-xs px-3 py-1 rounded-lg border border-slate-800">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
+          <div className="relative w-full overflow-hidden py-4 border-y border-slate-800/80 bg-slate-950/50">
+            <motion.div
+              className="flex gap-8 whitespace-nowrap min-w-full"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+            >
+              {[...skillsList, ...skillsList].map((skill, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-3 bg-slate-900/80 border border-slate-800 px-5 py-3 rounded-xl shadow-inner shrink-0"
+                >
+                  <span className="text-xl">{skill.icon}</span>
+                  <span className="text-xs font-bold text-slate-200">{skill.name}</span>
+                </div>
+              ))}
+            </motion.div>
           </div>
         </motion.section>
 
-        {/* PROJECTS SECTION */}
+        {/* PROJECTS SECTION (المشاريع الموسعة) */}
         <motion.section
           id="projects"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
           className="space-y-8"
         >
           <div className="text-center space-y-1">
             <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Portfolio</span>
-            <h2 className="text-3xl font-black text-white">Featured Projects</h2>
+            <h2 className="text-3xl font-black text-white">Featured Projects & Labs</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -264,6 +313,13 @@ export default function Home() {
                     </span>
                     <h3 className="text-lg font-bold text-white">{proj.title}</h3>
                     <p className="text-xs text-slate-400 leading-relaxed">{proj.description}</p>
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {proj.tags.map((tag) => (
+                        <span key={tag} className="text-[10px] bg-slate-900 border border-slate-800 text-slate-300 px-2 py-0.5 rounded">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
                 <div className="p-6 pt-0 flex items-center justify-between">
@@ -274,7 +330,7 @@ export default function Home() {
                     onClick={playClickSound}
                     className="text-xs text-cyan-400 hover:underline flex items-center gap-1 font-bold"
                   >
-                    <FaGithub /> View Code
+                    <FaGithub /> View Repository
                   </a>
                 </div>
               </motion.div>
@@ -282,21 +338,71 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* CONTACT SECTION */}
-        <section id="contact" className="bg-slate-950/80 border border-slate-800 rounded-3xl p-8 md:p-12 text-center space-y-6">
-          <h2 className="text-3xl font-black text-white">Get In Touch</h2>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a href={`mailto:${PORTFOLIO_DATA.socials.email}`} onClick={playClickSound} className="bg-cyan-500 text-slate-950 px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2">
+        {/* CONTACT & LEAVE A MESSAGE SECTION (بوكس ترك رسالة) */}
+        <motion.section
+          id="contact"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-slate-950/80 border border-slate-800 rounded-3xl p-8 md:p-12 space-y-8"
+        >
+          <div className="text-center space-y-2">
+            <h2 className="text-3xl font-black text-white">Leave a Message</h2>
+            <p className="text-xs text-slate-400">Have a project or opportunity? Drop your details below.</p>
+          </div>
+
+          <form onSubmit={handleFormSubmit} className="max-w-xl mx-auto space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                placeholder="Your Name"
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 transition"
+              />
+              <input
+                type="email"
+                placeholder="Your Email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 transition"
+              />
+            </div>
+            <textarea
+              rows={4}
+              placeholder="Your Message..."
+              required
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              className="w-full bg-slate-900/90 border border-slate-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-cyan-400 transition"
+            />
+            <button
+              type="submit"
+              className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20"
+            >
+              <FaPaperPlane /> Send Message
+            </button>
+            {formSent && (
+              <p className="text-xs text-emerald-400 text-center font-mono mt-2">
+                ✓ Message sent successfully! (+15 XP)
+              </p>
+            )}
+          </form>
+
+          <div className="flex flex-wrap justify-center gap-4 pt-4 border-t border-slate-800/80">
+            <a href={`mailto:${PORTFOLIO_DATA.socials.email}`} onClick={playClickSound} className="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
               <FaEnvelope /> {PORTFOLIO_DATA.socials.email}
             </a>
-            <a href={PORTFOLIO_DATA.socials.github} target="_blank" rel="noreferrer" onClick={playClickSound} className="bg-slate-900 border border-slate-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2">
+            <a href={PORTFOLIO_DATA.socials.github} target="_blank" rel="noreferrer" onClick={playClickSound} className="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
               <FaGithub /> GitHub
             </a>
-            <a href={PORTFOLIO_DATA.socials.linkedin} target="_blank" rel="noreferrer" onClick={playClickSound} className="bg-slate-900 border border-slate-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2">
+            <a href={PORTFOLIO_DATA.socials.linkedin} target="_blank" rel="noreferrer" onClick={playClickSound} className="bg-slate-900 border border-slate-800 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
               <FaLinkedin /> LinkedIn
             </a>
           </div>
-        </section>
+        </motion.section>
 
       </main>
 
