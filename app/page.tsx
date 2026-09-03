@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PORTFOLIO_DATA } from "../data/portfolio";
 import { useGamification } from "../hooks/useGamification";
@@ -9,39 +9,45 @@ import { InteractiveFloating } from "../components/InteractiveFloating";
 import { CustomCursor, CounterNumber, playClickSound } from "../components/Effects";
 import { 
   FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaPaperPlane,
-  FaAws, FaLinux, FaGitAlt, FaPython, FaJava, FaDocker, FaNetworkWired, FaShieldAlt, FaTerminal, FaDatabase
+  FaAws, FaLinux, FaGitAlt, FaPython, FaJava, FaNetworkWired, FaShieldAlt, FaTerminal, FaDatabase, FaGamepad, FaMobileAlt
 } from "react-icons/fa";
-import { SiTerraform, SiCplusplus, SiCisco, SiFirebase } from "react-icons/si";
+import { SiTerraform, SiCplusplus, SiCisco, SiFirebase, SiFlutter, SiGodotengine } from "react-icons/si";
 
 export default function Home() {
   const { xp, addXp, discoveredCount, discoverMilestone, levelName } = useGamification();
   const [activeSection, setActiveSection] = useState("home");
   const [overlayText, setOverlayText] = useState<string | null>(null);
+  const previousSectionRef = useRef<string>("home");
   
   // حالة نموذج إرسال الرسالة
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [formSent, setFormSent] = useState(false);
 
+  // دالة لعرض شاشة الانتقال
+  const triggerOverlay = (sectionName: string) => {
+    setOverlayText(sectionName.toUpperCase());
+    setTimeout(() => {
+      setOverlayText(null);
+    }, 1000);
+  };
+
   const scrollTo = (id: string, name: string) => {
     playClickSound();
-    setOverlayText(name);
+    triggerOverlay(name);
     
     setTimeout(() => {
       const element = document.getElementById(id);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
-    }, 300);
-
-    setTimeout(() => {
-      setOverlayText(null);
-    }, 1200);
+    }, 200);
   };
 
+  // متابعة الـ Scroll وتفعيل أنيميشن انتقال السكاشن تلقائياً
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["home", "about", "experience", "skills", "projects", "contact"];
-      const scrollPosition = window.scrollY + 250;
+      const scrollPosition = window.scrollY + 300;
 
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
@@ -49,8 +55,12 @@ export default function Home() {
           const top = element.offsetTop;
           const height = element.offsetHeight;
           if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(sectionId);
-            discoverMilestone(sectionId);
+            if (previousSectionRef.current !== sectionId) {
+              previousSectionRef.current = sectionId;
+              setActiveSection(sectionId);
+              discoverMilestone(sectionId);
+              triggerOverlay(sectionId);
+            }
             break;
           }
         }
@@ -74,24 +84,86 @@ export default function Home() {
     }
   };
 
-  // قائمة المهارات مع الأيقونات الخاصة بها للشريط المتحرك
+  // قائمة جميع مشاريعك من GitHub
+  const allProjects = [
+    {
+      id: "proj-1",
+      title: "Electrical Store ERP",
+      category: "Enterprise Desktop & Cloud",
+      description: "3-tier enterprise ERP software built with Java and Firebase Cloud Firestore for real-time inventory management, sales tracking, and cloud DB synchronization.",
+      tags: ["Java", "Firebase", "Firestore", "OOP", "ERP"],
+      githubUrl: "https://github.com/youssefsaber592-netizen/ElectricalStoreERP",
+      image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: "proj-2",
+      title: "Flutter Mobile Applications",
+      category: "Cross-Platform Mobile",
+      description: "Custom cross-platform applications featuring a 6-screen Task & To-Do manager, custom state management, dynamic navigation architecture, and e-commerce UI components.",
+      tags: ["Flutter", "Dart", "Mobile UI", "VS Code"],
+      githubUrl: "https://github.com/youssefsaber592-netizen",
+      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: "proj-3",
+      title: "2D Platformer Game",
+      category: "Game Development",
+      description: "2D action platformer game developed using Godot Engine 4 and GDScript. Implements level loading logic, custom signal events, animated tilemaps, and physics interactions.",
+      tags: ["Godot 4", "GDScript", "GameDev", "Itch.io Assets"],
+      githubUrl: "https://github.com/youssefsaber592-netizen",
+      image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: "proj-4",
+      title: "Cisco PAT & Network Labs",
+      category: "Computer Networking",
+      description: "Configured Port Address Translation (PAT) and Access Control Lists (ACLs) using Cisco Packet Tracer. Validated subnetting, NAT routing, and multi-router security topologies.",
+      tags: ["Cisco", "Packet Tracer", "CCNA", "PAT/NAT", "Networking"],
+      githubUrl: "https://github.com/youssefsaber592-netizen",
+      image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: "proj-5",
+      title: "SOC & Security Investigation Labs",
+      category: "Cybersecurity & Logs",
+      description: "TryHackMe security analyst room write-ups and scripts covering DNS tunneling detection, OSI/TCP-IP models, VyOS firewall configurations, and IDS alert log analysis.",
+      tags: ["Cybersecurity", "SOC Analyst", "IDS Logs", "VyOS", "TryHackMe"],
+      githubUrl: "https://github.com/youssefsaber592-netizen",
+      image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      id: "proj-6",
+      title: "AWS Cloud Infrastructure Labs",
+      category: "DevOps & Cloud Architecture",
+      description: "Practiced deploying secure VPCs, AWS EC2, S3, IAM policies, RDS instances, and automation pipelines under the DEPI initiative.",
+      tags: ["AWS", "VPC", "EC2", "S3", "DevOps"],
+      githubUrl: "https://github.com/youssefsaber592-netizen",
+      image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
+    }
+  ];
+
+  // المهارات والشريط المتحرك
   const skillsList = [
     { name: "AWS Cloud", icon: <FaAws className="text-amber-400" /> },
     { name: "Linux Admin", icon: <FaLinux className="text-yellow-300" /> },
-    { name: "IAM & Security", icon: <FaShieldAlt className="text-emerald-400" /> },
+    { name: "Flutter & Dart", icon: <SiFlutter className="text-cyan-400" /> },
+    { name: "Godot Engine", icon: <SiGodotengine className="text-blue-400" /> },
     { name: "CCNA & Networking", icon: <SiCisco className="text-cyan-400" /> },
     { name: "Git / GitHub", icon: <FaGitAlt className="text-orange-500" /> },
     { name: "Python", icon: <FaPython className="text-blue-400" /> },
     { name: "Java", icon: <FaJava className="text-red-400" /> },
     { name: "C++", icon: <SiCplusplus className="text-blue-500" /> },
-    { name: "Bash Scripting", icon: <FaTerminal className="text-slate-300" /> },
     { name: "Firebase Firestore", icon: <SiFirebase className="text-amber-500" /> },
-    { name: "SQL & Databases", icon: <FaDatabase className="text-indigo-400" /> },
-    { name: "Infrastructure Security", icon: <FaNetworkWired className="text-teal-400" /> },
+    { name: "Bash & Linux CLI", icon: <FaTerminal className="text-slate-300" /> },
+    { name: "Security & SOC", icon: <FaShieldAlt className="text-emerald-400" /> },
   ];
 
   return (
     <div className="min-h-screen bg-[#05070B] text-slate-200 font-sans selection:bg-cyan-500 selection:text-slate-950 relative overflow-x-hidden cursor-none">
+      
+      {/* خلفية المربعات المخططة (Grid Pattern Background) */}
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-20 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+
       <CustomCursor />
 
       {/* شاشة انتقال الأقسام بملء الصفحة */}
@@ -121,7 +193,7 @@ export default function Home() {
         discoveredCount={discoveredCount}
         levelName={levelName}
         activeSection={activeSection}
-        onNavigate={(sec) => scrollTo(sec, sec.toUpperCase())}
+        onNavigate={(sec) => scrollTo(sec, sec)}
       />
 
       <main className="max-w-5xl mx-auto px-6 space-y-32 pt-28 pb-20 relative z-10">
@@ -134,7 +206,7 @@ export default function Home() {
           transition={{ duration: 0.8 }}
           className="min-h-[70vh] flex flex-col md:flex-row items-center justify-between gap-12 pt-6"
         >
-          {/* الصورة الشخصية مع أنيميشن الطفو والارتفاع */}
+          {/* الصورة الشخصية */}
           <motion.div
             animate={{ y: [0, -15, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -146,7 +218,6 @@ export default function Home() {
                 alt={PORTFOLIO_DATA.name}
                 className="w-full h-full object-cover rounded-full"
                 onError={(e) => {
-                  // حاطين صورة fallback في حال لم يجد ملف profile.jpg
                   (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80";
                 }}
               />
@@ -198,7 +269,7 @@ export default function Home() {
                 href={PORTFOLIO_DATA.socials.resume}
                 download
                 onClick={playClickSound}
-                className="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-white px-6 py-3 rounded-xl font-medium text-xs transition flex items-center gap-2"
+                className="bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-white px-6 py-3 rounded-xl font-medium text-xs transition flex items-center gap-2"
               >
                 <FaDownload /> Request Full CV ↓
               </a>
@@ -212,7 +283,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="space-y-6 bg-slate-950/40 border border-slate-800/80 rounded-3xl p-8"
+          className="space-y-6 bg-slate-950/60 border border-slate-800/80 rounded-3xl p-8 backdrop-blur-md"
         >
           <div className="space-y-1">
             <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">About Me</span>
@@ -238,7 +309,7 @@ export default function Home() {
 
           <div className="space-y-4">
             {PORTFOLIO_DATA.experiences.map((exp) => (
-              <div key={exp.id} className="bg-slate-950/60 border border-slate-800/80 p-6 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div key={exp.id} className="bg-slate-950/60 border border-slate-800/80 p-6 rounded-2xl backdrop-blur-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                   <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">
                     {exp.type}
@@ -253,7 +324,7 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* SKILLS MARQUEE SECTION (شريط المهارات المتحرك مع الأيقونات) */}
+        {/* SKILLS MARQUEE SECTION */}
         <motion.section
           id="skills"
           initial={{ opacity: 0, y: 40 }}
@@ -266,11 +337,11 @@ export default function Home() {
             <h2 className="text-3xl font-black text-white">Skills & Tech Stack</h2>
           </div>
 
-          <div className="relative w-full overflow-hidden py-4 border-y border-slate-800/80 bg-slate-950/50">
+          <div className="relative w-full overflow-hidden py-4 border-y border-slate-800/80 bg-slate-950/50 backdrop-blur-md">
             <motion.div
               className="flex gap-8 whitespace-nowrap min-w-full"
               animate={{ x: ["0%", "-50%"] }}
-              transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+              transition={{ repeat: Infinity, duration: 22, ease: "linear" }}
             >
               {[...skillsList, ...skillsList].map((skill, index) => (
                 <div
@@ -285,7 +356,7 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* PROJECTS SECTION (المشاريع الموسعة) */}
+        {/* ALL GITHUB PROJECTS SECTION */}
         <motion.section
           id="projects"
           initial={{ opacity: 0, y: 40 }}
@@ -295,15 +366,15 @@ export default function Home() {
         >
           <div className="text-center space-y-1">
             <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Portfolio</span>
-            <h2 className="text-3xl font-black text-white">Featured Projects & Labs</h2>
+            <h2 className="text-3xl font-black text-white">All GitHub Projects & Labs</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {PORTFOLIO_DATA.projects.map((proj) => (
+            {allProjects.map((proj) => (
               <motion.div
                 key={proj.id}
                 whileHover={{ y: -6 }}
-                className="bg-slate-950/60 border border-slate-800 rounded-2xl overflow-hidden hover:border-cyan-500/50 transition flex flex-col justify-between"
+                className="bg-slate-950/60 border border-slate-800/80 rounded-2xl overflow-hidden hover:border-cyan-500/50 transition flex flex-col justify-between backdrop-blur-md"
               >
                 <div>
                   <img src={proj.image} alt={proj.title} className="w-full h-44 object-cover" />
@@ -338,13 +409,13 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* CONTACT & LEAVE A MESSAGE SECTION (بوكس ترك رسالة) */}
+        {/* CONTACT SECTION */}
         <motion.section
           id="contact"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-slate-950/80 border border-slate-800 rounded-3xl p-8 md:p-12 space-y-8"
+          className="bg-slate-950/80 border border-slate-800/80 rounded-3xl p-8 md:p-12 space-y-8 backdrop-blur-md"
         >
           <div className="text-center space-y-2">
             <h2 className="text-3xl font-black text-white">Leave a Message</h2>
