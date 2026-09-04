@@ -48,6 +48,30 @@ export default function Home() {
   };
 
   useEffect(() => {
+
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+
+    // 2. منع اختصارات الـ Console والـ View Source
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.key === "F12" || 
+        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+        (e.ctrlKey && e.key === "u")
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+
     const handleScroll = () => {
       if (isScrollingRef.current) return;
 
@@ -83,14 +107,14 @@ export default function Home() {
     if (formData.name && formData.email && formData.message) {
       emailjs
         .send(
-          "service_sq4hzsk",
-          "template_jdm4hp4",
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
           {
             from_name: formData.name,
             from_email: formData.email,
             message: formData.message,
           },
-          "4daaBMK3QwGrhcxAo"
+          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
         )
         .then(
           (response) => {
@@ -107,7 +131,6 @@ export default function Home() {
         );
     }
   };
-
   // مصفوفة المشاريع مضاف إليها مشروع CS Platform الجديد
   const allProjects = [
     {
