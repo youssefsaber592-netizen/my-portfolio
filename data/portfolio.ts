@@ -10,7 +10,7 @@ export const PORTFOLIO_DATA = {
   stats: {
     collaborations: 50,
     experiences: 3,
-    certifications: 5,
+    certifications: 6,
   },
 
   socials: {
@@ -71,6 +71,15 @@ export const PORTFOLIO_DATA = {
       githubUrl: "https://github.com/youssefsaber592-netizen",
     },
     {
+      id: "cs-platform",
+      title: "CS Platform",
+      category: "Computer Science & E-Learning",
+      description: "A comprehensive computer science platform designed for interactive learning, algorithms, and technical resources.",
+      tags: ["Next.js", "TypeScript", "Tailwind CSS", "React"],
+      githubUrl: "https://github.com/youssefsaber592-netizen/cs-platform",
+      image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80"
+    },
+    {
       id: "aws-security-labs",
       title: "AWS & Cloud Security Labs",
       category: "Cloud Security / DevOps",
@@ -80,5 +89,14 @@ export const PORTFOLIO_DATA = {
       image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80",
       githubUrl: "https://github.com/youssefsaber592-netizen",
     },
+    {
+      id: "cs-platform", // معرّف فريد للمشروع
+      title: "CS Platform",
+      category: "Computer Science & E-Learning Platform",
+      description: "A comprehensive platform for computer science concepts, interactive learning modules, and resource sharing.",
+      tags: ["Next.js", "React", "TypeScript", "Tailwind CSS"], // عدل التقنيات حسب مشروعك
+      githubUrl: "https://github.com/youssefsaber592-netizen/cs-platform", // ضع رابط المستودع الخاص بك
+      image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80" // رابط صورة تعبر عن المشروع
+},
   ],
 };

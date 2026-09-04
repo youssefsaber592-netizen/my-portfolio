@@ -12,7 +12,7 @@ import {
   FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaPaperPlane,
   FaAws, FaLinux, FaGitAlt, FaPython, FaJava, FaTerminal, FaShieldAlt
 } from "react-icons/fa";
-import { SiCisco, SiFirebase, SiFlutter, SiGodotengine, SiCplusplus } from "react-icons/si";
+import { SiCisco, SiFirebase, SiFlutter, SiGodotengine, SiCplusplus, SiReact, SiNextdotjs } from "react-icons/si";
 
 export default function Home() {
   const { xp, addXp, discoveredCount, discoverMilestone, levelName } = useGamification();
@@ -108,7 +108,17 @@ export default function Home() {
     }
   };
 
+  // مصفوفة المشاريع مضاف إليها مشروع CS Platform الجديد
   const allProjects = [
+    {
+      id: "cs-platform",
+      title: "CS Platform",
+      category: "Computer Science & E-Learning",
+      description: "A comprehensive platform dedicated to computer science concepts, interactive learning modules, coding practice, and educational technical resources.",
+      tags: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+      githubUrl: "https://github.com/youssefsaber592-netizen/cs-platform",
+      image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80"
+    },
     {
       id: "proj-1",
       title: "Electrical Store ERP",
@@ -268,7 +278,7 @@ export default function Home() {
               <div className="flex gap-8">
                 <div>
                   <p className="text-3xl font-black text-white">
-                    <CounterNumber targetNumber={PORTFOLIO_DATA.stats.collaborations} />+
+                    <CounterNumber targetNumber={7} />+
                   </p>
                   <p className="text-xs text-slate-400 uppercase tracking-wider">PROJECTS</p>
                 </div>
