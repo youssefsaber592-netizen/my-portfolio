@@ -19,6 +19,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("home");
   const [overlayText, setOverlayText] = useState<string | null>(null);
   const previousSectionRef = useRef<string>("home");
+  const isScrollingRef = useRef<boolean>(false);
 
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [formSent, setFormSent] = useState(false);
@@ -33,17 +34,23 @@ export default function Home() {
   const scrollTo = (id: string, name: string) => {
     playClickSound();
     triggerOverlay(name);
-    
+    isScrollingRef.current = true;
+    setActiveSection(id);
+
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
     setTimeout(() => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 200);
+      isScrollingRef.current = false;
+    }, 800);
   };
 
   useEffect(() => {
     const handleScroll = () => {
+      if (isScrollingRef.current) return;
+
       const sections = ["home", "about", "experience", "skills", "projects", "contact"];
       const scrollPosition = window.scrollY + 300;
 
@@ -70,36 +77,36 @@ export default function Home() {
   }, [discoverMilestone]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
-  playClickSound();
+    e.preventDefault();
+    playClickSound();
 
-  if (formData.name && formData.email && formData.message) {
-    emailjs
-      .send(
-        "service_sq4hzsk",
-        "template_jdm4hp4", // الـ Template ID المحدث
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-        },
-        "4daaBMK3QwGrhcxAo"
-      )
-      .then(
-        (response) => {
-          console.log("SUCCESS!", response.status, response.text);
-          setFormSent(true);
-          addXp(15, "Message Sent!");
-          setFormData({ name: "", email: "", message: "" });
-          setTimeout(() => setFormSent(false), 4000);
-        },
-        (error) => {
-          console.error("EmailJS Error:", error);
-          alert(`فشل الإرسال: ${error.text || JSON.stringify(error)}`);
-        }
-      );
-  }
-};
+    if (formData.name && formData.email && formData.message) {
+      emailjs
+        .send(
+          "service_sq4hzsk",
+          "template_jdm4hp4",
+          {
+            from_name: formData.name,
+            from_email: formData.email,
+            message: formData.message,
+          },
+          "4daaBMK3QwGrhcxAo"
+        )
+        .then(
+          (response) => {
+            console.log("SUCCESS!", response.status, response.text);
+            setFormSent(true);
+            addXp(15, "Message Sent!");
+            setFormData({ name: "", email: "", message: "" });
+            setTimeout(() => setFormSent(false), 4000);
+          },
+          (error) => {
+            console.error("EmailJS Error:", error);
+            alert(`فشل الإرسال: ${error.text || JSON.stringify(error)}`);
+          }
+        );
+    }
+  };
 
   const allProjects = [
     {
@@ -176,7 +183,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#060913] text-slate-200 font-sans selection:bg-cyan-500 selection:text-slate-950 relative overflow-x-hidden cursor-none">
       
-      {/* خلفية الكاروهات الواضحة بتباين متناسق */}
       <div 
         className="fixed inset-0 pointer-events-none z-0 opacity-40"
         style={{
@@ -190,7 +196,6 @@ export default function Home() {
 
       <CustomCursor />
 
-      {/* شاشة انتقال الأقسام مع خط Pacifico */}
       <AnimatePresence>
         {overlayText && (
           <motion.div
@@ -229,9 +234,8 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="min-h-[70vh] flex flex-col md:flex-row items-center justify-between gap-12 pt-6"
+          className="min-h-[70vh] flex flex-col md:flex-row items-center justify-between gap-12 pt-6 scroll-mt-28"
         >
-          {/* الصورة الشخصية */}
           <motion.div
             animate={{ y: [0, -18, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -260,7 +264,6 @@ export default function Home() {
               <p className="text-lg md:text-xl font-bold text-cyan-400">{PORTFOLIO_DATA.title}</p>
             </div>
 
-            {/* الإحصائيات مع Available for work */}
             <div className="flex items-center justify-center md:justify-start gap-8 py-3 border-y border-slate-800/80 relative">
               <div className="flex gap-8">
                 <div>
@@ -293,7 +296,6 @@ export default function Home() {
               )}
             </div>
 
-            {/* الأزرار ووصلات التواصل */}
             <div className="space-y-4 pt-2">
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
                 <button
@@ -342,7 +344,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="space-y-6 bg-slate-950/70 border border-slate-800/80 rounded-3xl p-8 backdrop-blur-md"
+          className="space-y-6 bg-slate-950/70 border border-slate-800/80 rounded-3xl p-8 backdrop-blur-md scroll-mt-28"
         >
           <div className="space-y-1">
             <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">About Me</span>
@@ -359,7 +361,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="space-y-8"
+          className="space-y-8 scroll-mt-28"
         >
           <div className="space-y-1">
             <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Journey</span>
@@ -389,7 +391,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="space-y-6 overflow-hidden"
+          className="space-y-6 overflow-hidden scroll-mt-28"
         >
           <div className="text-center space-y-1">
             <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Technologies</span>
@@ -421,7 +423,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="space-y-8"
+          className="space-y-8 scroll-mt-28"
         >
           <div className="text-center space-y-1">
             <span className="text-cyan-400 text-xs font-mono uppercase tracking-widest">Portfolio</span>
@@ -474,7 +476,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-slate-950/80 border border-slate-800/80 rounded-3xl p-8 md:p-12 space-y-8 backdrop-blur-md"
+          className="bg-slate-950/80 border border-slate-800/80 rounded-3xl p-8 md:p-12 space-y-8 backdrop-blur-md scroll-mt-28"
         >
           <div className="text-center space-y-2">
             <h2 className="text-3xl font-black text-white">Leave a Message</h2>

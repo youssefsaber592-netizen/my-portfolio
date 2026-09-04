@@ -47,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               key={item}
               onClick={() => onNavigate(item)}
-              className={`capitalize px-2.5 sm:px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 ${
+              className={`capitalize px-2.5 sm:px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 cursor-pointer ${
                 isActive
                   ? "bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/30 font-bold"
                   : "text-slate-400 hover:text-white hover:bg-slate-800/50"

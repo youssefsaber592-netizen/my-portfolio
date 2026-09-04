@@ -34,9 +34,14 @@ export const CustomCursor = () => {
 
   useEffect(() => {
     const updateMouse = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-      
-      const target = e.target as HTMLElement;
+    const zoom = 1.25;
+
+    const x = e.clientX / zoom;
+    const y = e.clientY / zoom;
+
+    setMousePosition({ x, y });
+
+        const target = e.target as HTMLElement;
       if (
         target.tagName === "BUTTON" ||
         target.tagName === "A" ||

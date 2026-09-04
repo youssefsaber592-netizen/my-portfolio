@@ -15,7 +15,7 @@ export const PORTFOLIO_DATA = {
 
   socials: {
     github: "https://github.com/youssefsaber592-netizen",
-    linkedin: "https://linkedin.com/in/youssef-saber",
+    linkedin: "https://linkedin.com/in/youssef-saber-",
     email: "youssefsaber592@gmail.com",
     phone: "+20 120 658 3435",
     resume: "/Youssef_Saber_CV.pdf",
